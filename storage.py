@@ -24,6 +24,25 @@ def get_profile(user):
         return dict(profile)
     return None
 
+
+def updatePassword(user,password):
+    profile = profile_table.get(where('user') == user)
+    if profile:
+     profile['password']=password
+     profile_table.update(profile)
+
+
+
+#def reset_pwd(profile):
+#     profile1 = profile_table.get(where('user') == user)
+
+#        profile1['password']=profile['password'];
+#        profile_table.remove(profile)
+#    profile_table.insert(profile1)
+
+
+
+
 def delete_profile(user):
     profile_table.remove(where('user') == user)
 

@@ -1,23 +1,103 @@
 {% extends "base.html" %}
+
 {% block body %}
-<h3>Login</h3>
-<hr/>
-<form method="post" action="/login">
-        <table>
-            <tr>
-                <td>User</td>
-                <td><input type="text" id="user_text" name="user" value=""/></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td><input type="text" id="password_text" name="password" value=""/></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td style="float:right"><input type="submit" id="submit_button" value="Submit"/></td>
-            </tr>
-        </table>
-    </form>
+
+<div class="container login-container" style="width:1000px; margin:0 auto; ">
+    <div class="row">
+        <div class="col-md-6 login-form-1">
+
+            <form method = "POST" class="text-center" action="/login">
+                        <div class="imgcontainer">
+                             <img src="/static/Avatar.png" alt="Avatar" class="avatar">
+                        </div>
+                        <br/>
+                        <div class="form-group">
+                            <input type="text" id="user_text" name="user" placeholder="Your Email *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password_text" name="password" placeholder="Your Password *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <a href="/register">Need an account?</a>
+                            <input type="submit" id="submit_button" class="btnSubmit" value="Submit" />
+                        </div>
+                         <div class="form-group" >
+
+                             <span class="psw">Forgot <a href="/reset_password">password?</a></span>
+                         </div>
+
+             </form>
+        </div>
+
+
     <hr/>
-    <a href="/register">Need an account?</a>
+
+    </div>
+
+</div>
+
+
+
+<style>
+    .login-container{
+
+        margin-top: 5%;
+        margin-bottom: 5%;
+        margin-left:10%;
+}
+.login-form-1{
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1 h3{
+    text-align: center;
+    color: #333;
+}
+
+
+.login-container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+.login-form-1 .btnSubmit{
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+
+
+.login-form-1 .psw{
+    color: #0062cc;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+@media screen and (max-width: 300px) {
+  span.psw {
+    display: block;
+    float: none;
+  }
+}
+
+</style>
+
+
 {% endblock %}

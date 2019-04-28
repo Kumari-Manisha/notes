@@ -46,3 +46,5 @@ def get_content(search=None):
 def get_remove(id):
     notes_api.delete_note(id)
     return redirect("/notes")
+
+

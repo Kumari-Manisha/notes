@@ -20,6 +20,66 @@ _message=""
 def encrypt(password, salt):
     return hashlib.sha256((password+salt).encode()).hexdigest()
 
+@app.route('/')
+@app.route('/landing')
+def get_landing():
+    message = request.cookies.get("message")
+    response = make_response(render_template("landing.html", message=message, session=None))
+    response.set_cookie("message","",expires=0)
+    return response
+
+
+
+@app.route('/reset_password', methods=['GET'])
+def get_reset():
+    message = request.cookies.get("message")
+    response = make_response(render_template("reset_password.html", message=message, session=None))
+    response.set_cookie("message","",expires=0)
+    return response
+
+
+@app.route('/reset_password', methods=['POST'])
+def post_reset():
+    user =request.form.get("user")
+    password=encrypt(request.form.get("password1"), 'salt')
+    storage.updatePassword(user,password)
+    response =  make_response(redirect("/login"))
+
+    return response
+
+
+# class ResetPasswordRequestForm(FlaskForm):
+#     email = StringField('Email', validators=[DataRequired(), Email()])
+#     submit = SubmitField('Request Password Reset')
+
+
+# class ResetPasswordForm(FlaskForm):
+#     password = PasswordField('Password', validators=[DataRequired()])
+#     password2 = PasswordField(
+#         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+#     submit = SubmitField('Request Password Reset')
+
+
+# @app.route('/reset', methods=['POST'])
+# def post_reset():
+#     salt = str(time.time())[3:]
+#     # save the registration to the profile database
+#     storage.reset_psw({
+#         'salt':salt,
+#         'password':encrypt(request.form.get("password"), salt)
+#     })
+#     # if we are successful
+#     # -- PUT A CHECK HERE --
+#     if True:
+#         response =  make_response(redirect("/login"))
+#         response.set_cookie("message","",expires=0)
+#     else:
+#     # else if we are not successful
+#         response =  make_response(redirect("/reset"))
+#         response.set_cookie("message","Error in reset password, please try again.")
+#     return response
+
+
 @app.route('/register', methods=['GET'])
 def get_register():
     message = request.cookies.get("message")
@@ -48,7 +108,7 @@ def post_register():
         response.set_cookie("message","Error in registration, please try again.")
     return response
 
-@app.route('/')
+
 @app.route('/login', methods=['GET'])
 def get_login():
     message = request.cookies.get("message")
@@ -73,7 +133,7 @@ def post_login():
         return response
     # create a success response
     response =  make_response(redirect("/notes"))
-    # generate a (not really) random string 
+    # generate a (not really) random string
     key = "session." + str(random.randint(1000000000,1999999999))
     # create a session based on that key
     storage.add_session({"key":key, "user":user, "login":int(time.time()), "pages":1})
@@ -159,3 +219,8 @@ def get_content(search=None):
 def get_remove(id):
     storage.delete_note(id)
     return redirect("/notes")
+
+
+
+
+app.run()
